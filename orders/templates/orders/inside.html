@@ -1,0 +1,144 @@
+{% extends "orders/base.html" %}
+
+{% block body %}
+<h1>Hello, {{ user.username }}</h1>
+<ul>
+    <li>Currently logged in </li>
+    <li><a href="{% url 'logout' %}">Logout</a></li>
+</ul>
+
+<form action="{% url 'seeorder' %}" method="post" style="display:inline;">
+			{% csrf_token %}
+			   <input type="submit" value="See orders" />  
+			
+			<br>
+        </form>
+<h2> Menu </h2>
+
+Regular Pizza
+<ul>
+	
+	{% for regular in menu_regular_pizza %}
+		<form action="{% url 'additemsmall' regular.name regular.smallprice  %}" method="post">
+			{% csrf_token %}
+			<li>  {{regular.name}} : small: {{regular.smallprice}} <input type="submit" value="+" /> 
+			</li>
+		
+        </form>
+		<form action="{% url 'additemlarge' regular.name regular.largeprice %}" method="post">
+			{% csrf_token %}
+			<li> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  large: {{regular.largeprice}} <input type="submit" value="+" />  
+			</li>
+		
+        </form>
+		<br>
+	{% endfor %}
+</ul>
+Sicilian Pizza
+<ul>
+	
+	{% for sicilian in menu_sicilian_pizza %}
+		<form action="{% url 'additemsmall' sicilian.name sicilian.smallprice %}" method="post">
+			{% csrf_token %}
+			<li>  {{sicilian.name}} : small: {{sicilian.smallprice}} <input type="submit" value="+" /> 
+			</li>
+		
+        </form>
+		<form action="{% url 'additemlarge' sicilian.name sicilian.largeprice %}" method="post">
+			{% csrf_token %}
+			<li> &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp large: {{sicilian.largeprice}} <input type="submit" value="+" />  
+			</li>
+		
+        </form>
+		<br>
+	{% endfor %}
+</ul>
+Toppings
+<ul>
+	
+	{% for topping in toppings %}
+		<form action="{% url 'additemtopping' topping.name  %}" method="post">
+			{% csrf_token %}
+			<li>  {{topping.name}}  <input type="submit" value="+" /> 
+			</li>
+		
+        </form>
+	{% endfor %}
+</ul>
+Subs
+<ul>
+	
+	{% for sub in subs %}
+		<form action="{% url 'additemsmall' sub.name sub.smallprice %}" method="post">
+			{% csrf_token %}
+			<li>  {{sub.name}} : small: {{sub.smallprice}} <input type="submit" value="+" />
+			</li>
+        </form>
+		<form action="{% url 'additemlarge' sub.name sub.largeprice %}" method="post">
+			{% csrf_token %}
+			<li>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp large: {{sub.largeprice}} <input type="submit" value="+" />  
+			</li>
+        </form>
+		<br>
+	{% endfor %}
+</ul>
+Pasta
+<ul>
+	
+	{% for p in pasta %}
+		<form action="{% url 'additem' p.name p.price %}" method="post">
+			{% csrf_token %}
+			<li>  {{p.name}}: {{p.price}}  <input type="submit" value="+" /> 
+			</li>
+		
+        </form>
+	{% endfor %}
+</ul>
+Salads
+<ul>
+	
+	{% for salad in salads %}
+			<form action="{% url 'additem' salad.name salad.price %}" method="post">
+			{% csrf_token %}
+			<li>  {{salad.name}}: {{salad.price}} <input type="submit" value="+" />  
+			</li>
+		
+        </form>
+	{% endfor %}
+</ul>
+Dinner Platters
+<ul>
+	
+	{% for platter in dinner_platters %}
+		<form action="{% url 'additemsmall' platter.name platter.smallprice %}" method="post">
+			{% csrf_token %}
+			<li>  {{platter.name}} : small: {{platter.smallprice}} <input type="submit" value="+" /> 
+			</li>
+		
+        </form>
+		<form action="{% url 'additemlarge' platter.name platter.largeprice %}" method="post" style="display:inline;">
+			{% csrf_token %}
+			<li>  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp large: {{platter.largeprice}} <input type="submit" value="+" />  
+			</li>
+			<br>
+        </form>
+	{% endfor %}
+</ul>
+
+<div>
+	Shop car:
+	{% for o in order %}
+		<form action="{% url 'deleteitem' o.id  %}" method="post">
+			{% csrf_token %}
+			{{o.name}}({{o.price}}) <input type="submit" value="-" /> 
+		</form>
+		<br>
+	{% endfor %}
+	The total is  = {{total.price__sum}}
+	<br>
+	<form action="{% url 'confirmedorder' %}" method="post">
+	{% csrf_token %}
+			<input type="submit" value="Confirm the order" /> 
+	</form>
+</div>
+{% endblock %}
