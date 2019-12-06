@@ -1,3 +1,4 @@
 # Project 3
-
-Web Programming with Python and JavaScript
+Author: Jordan Montenegro
+Web Programming with Python and JavaScript.
+Application to manage a pizza business.
